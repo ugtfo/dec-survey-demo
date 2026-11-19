@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Спасибо</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container center">
+  <h1>Спасибо!</h1>
+  {% if already %}
+  <p>Вы уже проходили этот опрос ранее, повторное прохождение недоступно.</p>
+  {% else %}
+  <p>Ваши ответы получены и сохранены. Результаты не отображаются участникам.</p>
+  {% endif %}
+</div>
+</body>
+</html>

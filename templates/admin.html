@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Статистика опроса</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+  <h1>Статистика опроса</h1>
+
+  <p class="lead">Всего ответов: <b>{{ view.n }}</b></p>
+
+  <h2>Сравнение «до» и «после»</h2>
+  <table>
+    <tr><th>Метрика</th><th>До DEC</th><th>С DEC</th></tr>
+    <tr><td>Медианное время расчёта</td><td>{{ view.median_before }}</td><td>{{ view.median_after }}</td></tr>
+    <tr><td>Ошибки «никогда/редко»</td><td>{{ view.err_before }}</td><td>{{ view.err_after }}</td></tr>
+    <tr><td>Удобство процесса (1–10)</td><td>{{ view.conv_before }}</td><td>{{ view.conv_after }}</td></tr>
+  </table>
+
+  <h2>Эффект от внедрения</h2>
+  <table>
+    <tr><th>Метрика</th><th>Значение</th></tr>
+    <tr><td>Экономия времени (медиана)</td><td>{{ view.time_saved }} ({{ view.time_saved_pct }})</td></tr>
+    <tr><td>Удовлетворённость скоростью DEC (CSI, 1–10)</td><td>{{ view.csi }}</td></tr>
+    <tr><td>NPS (готовность рекомендовать)</td><td>{{ view.nps }}</td></tr>
+    <tr><td>Готовность к платной подписке</td><td>{{ view.sub_ready }}</td></tr>
+  </table>
+
+  <h2>Распределение ответов о подписке</h2>
+  <table>
+    <tr><th>Вариант</th><th>Кол-во</th></tr>
+    {% for opt, cnt in view.sub_dist.items() %}
+    <tr><td>{{ opt }}</td><td>{{ cnt }}</td></tr>
+    {% endfor %}
+  </table>
+
+  <h2>Последние ответы</h2>
+  <pre>{{ view.raw_tail | tojson(indent=2) }}</pre>
+</div>
+</body>
+</html>

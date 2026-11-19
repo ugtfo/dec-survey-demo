@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Опрос: оценка процесса инженерных расчётов</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+  <h1>Оценка процесса инженерных расчётов</h1>
+  <p class="lead">Опрос состоит из двух блоков: как было до внедрения DEC и как стало с DEC.
+  Ответы используются только в обобщённом виде и не отображаются участникам.</p>
+
+  <form method="post" action="{{ url_for('submit') }}">
+    {% for group in groups %}
+    <section class="phase">
+      <h2>{{ group.title }}</h2>
+      {% for q in group.questions %}
+      <div class="q">
+        <p class="q-text">{{ q.text }}</p>
+        {% if q.type == 'choice' %}
+        <div class="options">
+          {% for opt in q.options %}
+          <label><input type="radio" name="{{ q.id }}" value="{{ opt }}" required> {{ opt }}</label>
+          {% endfor %}
+        </div>
+        {% elif q.type == 'scale' %}
+        <div class="scale">
+          <label>{{ q.min }}
+            <input type="number" name="{{ q.id }}" min="{{ q.min }}" max="{{ q.max }}" required>
+            {{ q.max }}</label>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </section>
+    {% endfor %}
+    <button type="submit">Отправить ответы</button>
+  </form>
+</div>
+</body>
+</html>
