@@ -60,14 +60,25 @@ python3 app.py
 
 ## Деплой
 
-### Render
+### Render (бесплатный тариф)
 
-1. Создайте новый Web Service, подключите репозиторий.
-2. Build command: `pip install -r requirements.txt`.
-3. Start command: `gunicorn app:app`.
-4. В разделе Environment добавьте `DEC_SECRET_KEY` и `DEC_ADMIN_TOKEN`.
-5. Добавьте Persistent Disk и укажите `DEC_DB_PATH=/var/data/survey.db`,
-   иначе база будет пересоздаваться при каждом деплое.
+Бесплатный тариф Render не даёт постоянный диск, поэтому SQLite там стирается при
+каждом перезапуске. Вместо этого подключите бесплатную PostgreSQL-базу
+(например, **Neon** — https://neon.tech, Free Tier):
+
+1. В Neon создайте проект и базу, скопируйте строку подключения (начинается
+   с `postgresql://…`).
+2. В Render создайте Web Service, подключите репозиторий `dec-survey-demo`.
+3. Build command: `pip install -r requirements.txt`.
+4. Start command: `gunicorn -w 1 app:app`.
+5. В Environment добавьте:
+   - `DEC_SECRET_KEY`
+   - `DEC_ADMIN_TOKEN`
+   - `DATABASE_URL` = строка подключения из Neon
+6. Deploy.
+
+> Альтернатива без PostgreSQL: **PythonAnywhere** (бесплатный тариф) имеет
+> постоянный диск, там SQLite работает как есть.
 
 ### PythonAnywhere
 
