@@ -33,8 +33,16 @@ dec-survey-demo/
 cd dec-survey-demo
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-python app.py
+python3 app.py
 ```
+
+> Если `python3 -m venv .venv` падает с ошибкой `ensurepip is not available`,
+> поставьте пакет `sudo apt install -y python3.10-venv`, либо обойдитесь без
+> виртуального окружения:
+> ```bash
+> pip install --user -r requirements.txt
+> python3 app.py
+> ```
 
 Откройте `http://127.0.0.1:5000`.
 
